@@ -1,7 +1,14 @@
+/*
+ * Copyright (C) Steffen Andreas Mork 2022.
+ * MIT license - see LICENSE file.
+ */
+
+#pragma once
+
 #ifndef SEARCHSERVICE_H
 #define SEARCHSERVICE_H
 
-#include "dcsinfo.h"
+#include "nameinfo.h"
 
 #include <unicode/tblcoll.h>
 
@@ -13,7 +20,10 @@ public:
 	SearchService();
 	virtual ~SearchService();
 
-	size_t search(QVector<DcsInfo> & infos, const QString & pattern);
+	size_t search(QVector<NameInfo> & infos, const QString & pattern);
+	bool search(
+		const icu::UnicodeString & text,
+		const icu::UnicodeString & pattern) const;
 };
 
 #endif // SEARCHSERVICE_H

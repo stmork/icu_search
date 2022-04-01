@@ -1,7 +1,11 @@
+/*
+ * Copyright (C) Steffen Andreas Mork 2022.
+ * MIT license - see LICENSE file.
+ */
+
 #include "searchservice.h"
 
 #include <QElapsedTimer>
-#include <QLocale>
 
 #include <unicode/unistr.h>
 #include <unicode/stsearch.h>
@@ -23,17 +27,16 @@ SearchService::~SearchService()
 	delete collation;
 }
 
-size_t SearchService::search(QVector<DcsInfo> & infos, const QString & pattern)
+size_t SearchService::search(QVector<NameInfo> & infos, const QString & pattern)
 {
 	const UnicodeString utf_pattern(pattern.utf16());
 
 	QElapsedTimer  elapsed;
-	UErrorCode     status = U_ZERO_ERROR;
 	size_t         count  = 0;
 
 	elapsed.start();
 
-	for (DcsInfo & info : infos)
+	for (NameInfo & info : infos)
 	{
 		QStringList list;
 
@@ -44,11 +47,7 @@ size_t SearchService::search(QVector<DcsInfo> & infos, const QString & pattern)
 		info.found = false;
 		for (const QString & text : list)
 		{
-			const UnicodeString utf_search(text.utf16());
-			StringSearch        search(utf_pattern, utf_search, collation, nullptr, status);
-			const int           pos = search.first(status);
-
-			info.found |= U_SUCCESS(status) && (pos != USEARCH_DONE);
+			info.found |= search(UnicodeString(text.utf16()), utf_pattern);
 		}
 		if (info.found)
 		{
@@ -57,4 +56,15 @@ size_t SearchService::search(QVector<DcsInfo> & infos, const QString & pattern)
 	}
 	qDebug() << "Search for" << pattern << "took" << elapsed.elapsed() << "ms";
 	return count;
+}
+
+bool SearchService::search(
+	const UnicodeString & text,
+	const UnicodeString & pattern) const
+{
+	UErrorCode     status = U_ZERO_ERROR;
+	StringSearch   search(pattern, text, collation, nullptr, status);
+	const int      pos = search.first(status);
+
+	return U_SUCCESS(status) && (pos != USEARCH_DONE);
 }

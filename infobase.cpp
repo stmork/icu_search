@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) Steffen Andreas Mork 2022.
+ * MIT license - see LICENSE file.
+ */
+
 #include "infobase.h"
 
 #include <random>
@@ -25,13 +30,13 @@ void InfoBase::prepare()
 	std::uniform_int_distribution<> random_forename(0, forename_list.size() - 1);
 	std::uniform_int_distribution<> random_surname( 0, surname_list.size() - 1);
 
-	for (unsigned i = 0; i < 10000; i++)
+	for (unsigned i = 0; i < 1000; i++)
 	{
-		DcsInfo info;
+		NameInfo info;
 
 		info.forename = forename_list[random_forename(gen)];
 		info.surname  = surname_list[random_surname(gen)];
-		info.flat_no  = i * 17 % 1001;
+		info.flat_no  = i;
 
 		infos << info;
 	}
@@ -73,7 +78,7 @@ void InfoBase::sort()
 
 void InfoBase::dump(const bool all)
 {
-	for (const DcsInfo & info : infos)
+	for (const NameInfo & info : infos)
 	{
 		if (info.found || all)
 		{
@@ -82,7 +87,7 @@ void InfoBase::dump(const bool all)
 	}
 }
 
-bool InfoBase::operator()(const DcsInfo & left, const DcsInfo & right) const
+bool InfoBase::operator()(const NameInfo & left, const NameInfo & right) const
 {
 	int result = 0;
 

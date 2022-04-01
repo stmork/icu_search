@@ -4,16 +4,16 @@ CONFIG += c++17 console
 CONFIG -= app_bundle
 
 SOURCES += \
-	dcsinfo.cpp \
 	infobase.cpp \
 	main.cpp \
+	nameinfo.cpp \
 	searchservice.cpp
 
 LIBS += -licudata -licui18n -licuuc
 
 HEADERS += \
-	dcsinfo.h \
 	infobase.h \
+	nameinfo.h \
 	searchservice.h
 
 #####################################################################

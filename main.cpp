@@ -1,16 +1,11 @@
-#include <random>
-#include <vector>
-#include <set>
+/*
+ * Copyright (C) Steffen Andreas Mork 2022.
+ * MIT license - see LICENSE file.
+ */
 
-#include <QCoreApplication>
 #include <QDebug>
-#include <QFile>
-#include <QElapsedTimer>
-#include <QCollator>
 
 #include <unicode/unistr.h>
-#include <unicode/stsearch.h>
-#include <unicode/locid.h>
 
 #include "infobase.h"
 #include "searchservice.h"
@@ -29,7 +24,6 @@ int main(int argc, char * argv[])
 	SearchService service;
 
 	infos.sort();
-	infos.dump();
 
 	service.search(infos, "e");
 

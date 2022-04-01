@@ -1,15 +1,22 @@
+/*
+ * Copyright (C) Steffen Andreas Mork 2022.
+ * MIT license - see LICENSE file.
+ */
+
+#pragma once
+
 #ifndef INFOBASE_H
 #define INFOBASE_H
 
 #include <QVector>
 #include <QCollator>
 
-#include <dcsinfo.h>
+#include "nameinfo.h"
 
 class InfoBase
 {
-	QVector<DcsInfo> infos;
-	QCollator        collator;
+	QVector<NameInfo> infos;
+	QCollator         collator;
 
 public:
 	explicit InfoBase(const char * iso_code = "de_DE");
@@ -17,12 +24,12 @@ public:
 	void        sort();
 	void        dump(const bool all = true);
 
-	inline operator QVector<DcsInfo> & ()
+	inline operator QVector<NameInfo> & ()
 	{
 		return infos;
 	}
 
-	bool operator()(const DcsInfo & left, const DcsInfo & right) const;
+	bool operator()(const NameInfo & left, const NameInfo & right) const;
 
 private:
 	QStringList read(const char * filename);
