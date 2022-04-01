@@ -24,7 +24,12 @@ public:
 	void        sort();
 	void        dump(const bool all = true);
 
-	inline operator QVector<NameInfo> & ()
+	inline operator QVector<NameInfo> & () noexcept
+	{
+		return infos;
+	}
+
+	inline operator const QVector<NameInfo> & () const noexcept
 	{
 		return infos;
 	}
