@@ -10,9 +10,20 @@
 #include <QFile>
 #include <QElapsedTimer>
 
-InfoBase::InfoBase(const char * iso_code)
+InfoBase::InfoBase(const char * iso_code) : log(qInfo())
 {
 	prepare();
+
+	log.noquote().nospace();
+
+	const NameInfo author
+	{
+		"Steffen Andreas", "Mork", 1912, false
+	};
+
+	infos << author;
+
+	log << author << endl;
 
 	collator.setLocale(QLocale(iso_code));
 	collator.setIgnorePunctuation(true);
@@ -71,9 +82,9 @@ void InfoBase::sort()
 	QElapsedTimer elapsed;
 
 	elapsed.start();
-	qInfo() << infos.size() << "elements";
+	log << infos.size() << " elements" << endl;
 	std::sort(infos.begin(), infos.end(), *this);
-	qInfo() << "Sorted in " << elapsed.elapsed() << "ms.";
+	log << "Sorted in " << elapsed.elapsed() << " ms." << endl;
 }
 
 void InfoBase::dump(const bool all)
@@ -82,7 +93,7 @@ void InfoBase::dump(const bool all)
 	{
 		if (info.found || all)
 		{
-			qDebug() << info;
+			log << info;
 		}
 	}
 }

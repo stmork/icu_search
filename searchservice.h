@@ -15,6 +15,8 @@
 class SearchService
 {
 	icu::RuleBasedCollator * collation = nullptr;
+	QDebug                   log;
+
 
 public:
 	SearchService();

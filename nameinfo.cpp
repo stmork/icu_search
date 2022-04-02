@@ -7,7 +7,7 @@
 
 QDebug operator<<(QDebug d, const NameInfo & info)
 {
-	d << info.surname << ", " << info.forename << ":" << info.flat_no;
+	d << info.surname << ", " << info.forename << ":" << info.flat_no << endl;
 
 	return d;
 }

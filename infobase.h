@@ -17,6 +17,7 @@ class InfoBase
 {
 	QVector<NameInfo> infos;
 	QCollator         collator;
+	QDebug            log;
 
 public:
 	explicit InfoBase(const char * iso_code = "de_DE");
