@@ -15,14 +15,15 @@
 class SearchService
 {
 	icu::RuleBasedCollator * collation = nullptr;
-	QDebug                   log;
-
 
 public:
 	SearchService();
 	virtual ~SearchService();
 
 	size_t search(QVector<NameInfo> & infos, const QString & pattern);
+	bool search(
+		const QStringList &        text,
+		const icu::UnicodeString & pattern) const;
 	bool search(
 		const icu::UnicodeString & text,
 		const icu::UnicodeString & pattern) const;

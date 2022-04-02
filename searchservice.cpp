@@ -13,12 +13,10 @@
 
 using namespace icu;
 
-SearchService::SearchService() : log(qInfo())
+SearchService::SearchService()
 {
 	Locale      locale;
 	UErrorCode  status = U_ZERO_ERROR;
-
-	log.noquote();
 
 	collation = (RuleBasedCollator *)Collator::createInstance(locale, status);
 	collation->setStrength(Collator::PRIMARY);
@@ -46,19 +44,29 @@ size_t SearchService::search(QVector<NameInfo> & infos, const QString & pattern)
 		list << info.surname;
 		list << QString::number(info.flat_no);
 
-		info.found = false;
-		for (const QString & text : list)
-		{
-			info.found |= search(UnicodeString(text.utf16()), utf_pattern);
-		}
+		info.found = search(list, utf_pattern);
 		if (info.found)
 		{
 			count++;
 		}
 	}
 
-	log << "Search for" << pattern << "took" << elapsed.elapsed() << "ms and found" << count << "items" << endl;
+	qInfo().noquote() << "Search for" << pattern << "took" << elapsed.elapsed() << "ms and found" << count << "items";
 	return count;
+}
+
+bool SearchService::search(
+		const QStringList &   text,
+		const UnicodeString & pattern) const
+{
+	bool found = false;
+
+	for (const QString & text : text)
+	{
+		found |= search(UnicodeString(text.utf16()), pattern);
+	}
+
+	return found;
 }
 
 bool SearchService::search(
