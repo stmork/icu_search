@@ -38,11 +38,11 @@ size_t SearchService::search(QVector<NameInfo> & infos, const QString & pattern)
 
 	for (NameInfo & info : infos)
 	{
-		QStringList list;
+		QVector<UnicodeString> list;
 
-		list << info.forename;
-		list << info.surname;
-		list << QString::number(info.flat_no);
+		list << UnicodeString(info.forename.utf16());
+		list << UnicodeString(info.surname.utf16());
+		list << UnicodeString(QString::number(info.flat_no).utf16());
 
 		info.found = search(list, utf_pattern);
 		if (info.found)
@@ -64,6 +64,20 @@ bool SearchService::search(
 	for (const QString & text : text)
 	{
 		found |= search(UnicodeString(text.utf16()), pattern);
+	}
+
+	return found;
+}
+
+bool SearchService::search(
+		const QVector<icu_63::UnicodeString> & text_list,
+		const UnicodeString &                  pattern) const
+{
+	bool found = false;
+
+	for (const UnicodeString & text : text_list)
+	{
+		found |= search(text, pattern);
 	}
 
 	return found;

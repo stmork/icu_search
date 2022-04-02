@@ -25,6 +25,9 @@ public:
 		const QStringList &        text,
 		const icu::UnicodeString & pattern) const;
 	bool search(
+		const QVector<icu::UnicodeString> & text,
+		const icu::UnicodeString &          pattern) const;
+	bool search(
 		const icu::UnicodeString & text,
 		const icu::UnicodeString & pattern) const;
 };
