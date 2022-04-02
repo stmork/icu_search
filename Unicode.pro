@@ -28,11 +28,8 @@ astyle.commands = astyle *.cpp *.h
 
 cppcheck.commands = cppcheck\
 	--enable=style,warning,performance,portability\
-	--inline-suppr\
 	--suppress=unusedStructMember\
-	--suppress=useStlAlgorithm\
-	--suppress=noCopyConstructor\
-	--suppress=noOperatorEq\
+	--inline-suppr\
 	-I$$[QT_INSTALL_HEADERS]\
 	--language=c++ --std=c++14\
 	--library=qt\
@@ -40,4 +37,17 @@ cppcheck.commands = cppcheck\
 	*.cpp *.h \
 	2>cppcheck.xml
 
-QMAKE_CLEAN += cppcheck.xml valgrind*.xml *test-*-results.xml *.deb *.qch
+QMAKE_CLEAN += $$TARGET cppcheck.xml
+
+#####################################################################
+#
+# Remote deployments paths.
+#
+#####################################################################
+
+target.path    = ./test
+
+names.path     = ./
+names.files = *.txt
+
+INSTALLS += target names
