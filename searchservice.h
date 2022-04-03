@@ -20,13 +20,16 @@ public:
 	SearchService();
 	virtual ~SearchService();
 
-	size_t search(QVector<NameInfo> & infos, const QString & pattern);
+	size_t search(
+		QVector<NameInfo> & infos,
+		const QString   &   pattern,
+		const bool          all = true);
 	bool search(
-		const QStringList &        text,
+		const QStringList     &    text,
 		const icu::UnicodeString & pattern) const;
 	bool search(
 		const QVector<icu::UnicodeString> & text,
-		const icu::UnicodeString &          pattern) const;
+		const icu::UnicodeString      &     pattern) const;
 	bool search(
 		const icu::UnicodeString & text,
 		const icu::UnicodeString & pattern) const;

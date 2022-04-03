@@ -29,7 +29,7 @@ int main(int argc, char * argv[])
 
 	for (int i = 1; i < argc; i++)
 	{
-		service.search(infos, argv[i]);
+		service.search(infos, argv[i], !QString(argv[i]).startsWith(argv[i - 1]));
 		infos.dump(false);
 	}
 }

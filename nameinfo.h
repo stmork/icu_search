@@ -16,7 +16,7 @@ struct NameInfo
 	QString  forename;
 	QString  surname;
 	unsigned flat_no = 0;
-	bool     found   = false;
+	bool     found   = true;
 };
 
 QDebug operator<< (QDebug d, const NameInfo & info);

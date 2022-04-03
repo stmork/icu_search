@@ -27,7 +27,10 @@ SearchService::~SearchService()
 	delete collation;
 }
 
-size_t SearchService::search(QVector<NameInfo> & infos, const QString & pattern)
+size_t SearchService::search(
+	QVector<NameInfo> & infos,
+	const QString   &   pattern,
+	const bool          all)
 {
 	const UnicodeString utf_pattern(pattern.utf16());
 
@@ -38,16 +41,19 @@ size_t SearchService::search(QVector<NameInfo> & infos, const QString & pattern)
 
 	for (NameInfo & info : infos)
 	{
-		QVector<UnicodeString> list;
-
-		list << UnicodeString(info.forename.utf16());
-		list << UnicodeString(info.surname.utf16());
-		list << UnicodeString(QString::number(info.flat_no).utf16());
-
-		info.found = search(list, utf_pattern);
-		if (info.found)
+		if (info.found || all)
 		{
-			count++;
+			QVector<UnicodeString> list;
+
+			list << UnicodeString(info.forename.utf16());
+			list << UnicodeString(info.surname.utf16());
+			list << UnicodeString(QString::number(info.flat_no).utf16());
+
+			info.found = search(list, utf_pattern);
+			if (info.found)
+			{
+				count++;
+			}
 		}
 	}
 
@@ -56,31 +62,27 @@ size_t SearchService::search(QVector<NameInfo> & infos, const QString & pattern)
 }
 
 bool SearchService::search(
-		const QStringList &   text,
-		const UnicodeString & pattern) const
+	const QStringList  &  text_list,
+	const UnicodeString & pattern) const
 {
-	bool found = false;
-
-	for (const QString & text : text)
+	return std::any_of(
+			text_list.begin(), text_list.end(),
+			[this, pattern](const QString & text)
 	{
-		found |= search(UnicodeString(text.utf16()), pattern);
-	}
-
-	return found;
+		return search(UnicodeString(text.utf16()), pattern);
+	});
 }
 
 bool SearchService::search(
-		const QVector<icu_63::UnicodeString> & text_list,
-		const UnicodeString &                  pattern) const
+	const QVector<UnicodeString> & text_list,
+	const UnicodeString      &     pattern) const
 {
-	bool found = false;
-
-	for (const UnicodeString & text : text_list)
+	return std::any_of(
+			text_list.begin(), text_list.end(),
+			[this, pattern](const UnicodeString & text)
 	{
-		found |= search(text, pattern);
-	}
-
-	return found;
+		return search(text, pattern);
+	});
 }
 
 bool SearchService::search(
