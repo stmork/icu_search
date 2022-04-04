@@ -19,7 +19,13 @@ InfoBase::InfoBase(const char * iso_code)
 		"Steffen Andreas", "Mork", 1912, false
 	};
 
+	const NameInfo miller
+	{
+		"Thomas", "Müller", 4711, false
+	};
+
 	infos << author;
+	infos << miller;
 
 	qInfo().noquote() << author;
 

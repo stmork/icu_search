@@ -15,7 +15,7 @@ using namespace icu;
 
 SearchService::SearchService()
 {
-	Locale      locale;
+	Locale      locale(Locale::getGerman());
 	UErrorCode  status = U_ZERO_ERROR;
 
 	collation = (RuleBasedCollator *)Collator::createInstance(locale, status);
