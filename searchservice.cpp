@@ -47,6 +47,7 @@ size_t SearchService::search(
 
 			list << UnicodeString(info.forename.utf16());
 			list << UnicodeString(info.surname.utf16());
+			list << UnicodeString((info.forename + " " + info.surname).utf16());
 			list << UnicodeString(QString::number(info.flat_no).utf16());
 
 			info.found = search(list, utf_pattern);
